@@ -1,5 +1,5 @@
 <?php
-// Файлы phpmailer
+
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 require 'phpmailer/Exception.php';
@@ -8,7 +8,7 @@ $title = "Тема письма";
 $file = $_FILES['file'];
 
 $c = true;
-// Формирование самого письма
+
 $title = "Заголовок письма";
 foreach ( $_POST as $key => $value ) {
   if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "form_subject" ) {
@@ -23,7 +23,6 @@ foreach ( $_POST as $key => $value ) {
 
 $body = "<table style='width: 100%;'>$body</table>";
 
-// Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
 
 try {
@@ -31,19 +30,16 @@ try {
   $mail->CharSet = "UTF-8";
   $mail->SMTPAuth   = true;
 
-  // Настройки вашей почты
-  $mail->Host       = 'smtp.gmail.com'; // SMTP сервера вашей почты
-  $mail->Username   = 'gaynullinkh@gmail.com'; // Логин на почте
-  $mail->Password   = 'kakmlqrwxygrwtig'; // Пароль на почте
+  $mail->Host       = 'smtp.gmail.com';
+  $mail->Username   = 'gaynullinkh@gmail.com';
+  $mail->Password   = 'kakmlqrwxygrwtig';
   $mail->SMTPSecure = 'ssl';
   $mail->Port       = 465;
 
-  $mail->setFrom('gaynullinkh@gmail.com', 'Заявка с вашего сайта'); // Адрес самой почты и имя отправителя
+  $mail->setFrom('gaynullinkh@gmail.com', 'Заявка с вашего сайта');
 
-  // Получатель письма
   $mail->addAddress('karim13.91@mail.ru');
 
-  // Прикрипление файлов к письму
   if (!empty($file['name'][0])) {
     for ($ct = 0; $ct < count($file['tmp_name']); $ct++) {
       $uploadfile = tempnam(sys_get_temp_dir(), sha1($file['name'][$ct]));
@@ -57,7 +53,6 @@ try {
     }
   }
 
-  // Отправка сообщения
   $mail->isHTML(true);
   $mail->Subject = $title;
   $mail->Body = $body;
